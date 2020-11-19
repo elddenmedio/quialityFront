@@ -10,3 +10,16 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+menu {
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 999999;
+}
+
+.container {
+    position: relative;
+    top: 70px;
+}
