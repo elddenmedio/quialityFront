@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { PrimeModule } from './prime.module';
 
+import { MomentPipe } from 'src/app/_pipes';
+
 const modules = [
   HttpClientModule,
   FormsModule,
@@ -16,6 +18,7 @@ const modules = [
 
 @NgModule({
   declarations: [
+    MomentPipe
   ],
   imports: [
     CommonModule,
@@ -25,7 +28,8 @@ const modules = [
   exports: [
     CommonModule,
 
-    modules
+    modules,
+    MomentPipe
   ]
 })
 export class CommonLocalModule { }
