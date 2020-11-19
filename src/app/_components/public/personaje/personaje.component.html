@@ -1,0 +1,19 @@
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5">
+        <div class="card" *ngIf="person">
+            <div class="card-body">
+                <h1 class="card-title"> {{person.name}} </h1>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Height:</b> {{person.height}}</li>
+                    <li class="list-group-item"><b>Mass:</b> {{person.mass}}</li>
+                    <li class="list-group-item"><b>Hair Color:</b> {{person.hair_color}}</li>
+                    <li class="list-group-item"><b>Skin Color:</b> {{person.skin_color}}</li>
+                    <li class="list-group-item"><b>Eye Color:</b> {{person.eye_color}}</li>
+                    <li class="list-group-item"><b>Birth:</b> {{person.birth_year}}</li>
+                    <li class="list-group-item"><b>Gender:</b> {{person.gender}}</li>
+                </ul>
+                <a [routerLink]="'/personajes'" class="btn btn-primary float-right">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
