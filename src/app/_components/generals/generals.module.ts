@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu/menu.component';
 import { MaterialModule } from '../../_modules/material.module';
 import { PrimeModule } from '../../_modules/prime.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    MenuComponent
+    MenuComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,8 @@ import { PrimeModule } from '../../_modules/prime.module';
     MaterialModule
   ],
   exports: [
-    MenuComponent
+    MenuComponent,
+    PageNotFoundComponent
   ]
 })
 export class GeneralsModule { }
