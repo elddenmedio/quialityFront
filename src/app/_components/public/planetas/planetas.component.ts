@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonajesService } from 'src/app/_services';
+import { CommonEmitService, PersonajesService } from 'src/app/_services';
 import { Router } from '@angular/router';
 import { PlanetasInterface } from 'src/app/_interfaces';
 import { LazyLoadEvent } from 'primeng/api';
@@ -20,7 +20,8 @@ export class PlanetasComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private personajesServices: PersonajesService
+    private personajesServices: PersonajesService,
+    private commonService: CommonEmitService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class PlanetasComponent implements OnInit {
     });
 
     // setTimeout(() => {
-    // this.commonService.AClicked(_residents.toString());
+    this.commonService.AClicked(_residents.toString());
     // }, 300);
 
     this.router.navigate(['/residentes']);

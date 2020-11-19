@@ -4,6 +4,7 @@ import { MenuComponent } from './menu/menu.component';
 import { MaterialModule } from '../../_modules/material.module';
 import { PrimeModule } from '../../_modules/prime.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CommonEmitService } from 'src/app/_services';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   exports: [
     MenuComponent,
     PageNotFoundComponent
+  ],
+  providers: [
+    CommonEmitService
   ]
 })
 export class GeneralsModule { }
