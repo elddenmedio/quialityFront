@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { PrimeModule } from './prime.module';
 
 import { MomentPipe } from 'src/app/_pipes';
+import { NgxLoadingModule } from 'ngx-loading';
 
 const modules = [
   HttpClientModule,
@@ -23,7 +24,8 @@ const modules = [
   imports: [
     CommonModule,
 
-    modules
+    modules,
+    NgxLoadingModule.forRoot({})
   ],
   exports: [
     CommonModule,

@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/_modules/material.module';
 import { CommonLocalModule } from 'src/app/_modules/common-local.module';
 
 import { PersonajesService } from 'src/app/_services';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PersonajesService } from 'src/app/_services';
     CommonModule,
     PersonajesRoutingModule,
 
-    CommonLocalModule
+    CommonLocalModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [
     PersonajesService

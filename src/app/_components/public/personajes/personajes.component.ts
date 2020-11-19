@@ -25,6 +25,7 @@ export class PersonajesComponent implements OnInit {
   lengthPagination: number = 0;
   page: number = 1;
   count: number = 10;
+  loading: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -35,6 +36,7 @@ export class PersonajesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.getInfo(true)
   }
 
@@ -46,12 +48,13 @@ export class PersonajesComponent implements OnInit {
 
     this.personajesService.getInfo(this.page).subscribe(
       succ => {
+        this.loading = false;
         this.lengthPagination = 0;
         this.dataSource = new MatTableDataSource(succ.results);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.lengthPagination = succ.count;
-        debugger
+        
       },
       err => {
         debugger
