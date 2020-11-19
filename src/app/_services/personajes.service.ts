@@ -20,4 +20,8 @@ export class PersonajesService {
   getSpecificInfo(person): Observable<PersonajeInterface> {
     return this.http.get<PersonajeInterface>(environment.swapi_endpoint_api + 'people/' + person)
   }
+
+  getResidentes(page): Observable<GeneralInterface> {
+    return this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'planets', { params: { page: page } });
+  }
 }

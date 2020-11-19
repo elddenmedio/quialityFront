@@ -1,0 +1,35 @@
+<!-- currentPageReportTemplate="Items per page: {{totalItemsPerPage}} | {first} - {last} of {totalRecords} entries" -->
+<p-table #dt [value]="dataSource" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers" [paginator]="true" [lazy]="true" (onLazyLoad)="nextPage($event)" [totalRecords]="totalRecords"
+    [currentPageReportTemplate]="'{currentPage} of {totalPages}'" [globalFilterFields]="['name','terrain','population','created','edited']">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+            <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filter" />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Terrain</th>
+            <th>Population</th>
+            <th>Created</th>
+            <th>Edited</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+        <tr>
+            <td><a (click)="displayInfo(data.residents)">{{data.name}}</a></td>
+            <td><span>{{data.terrain}}</span></td>
+            <td><span *ngIf="data.population != 'unknown'">{{data.population | number}}</span></td>
+            <td><span>{{data.created | moment:1}}</span></td>
+            <td><span>{{data.edited | moment:1}}</span></td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">No info found.</td>
+        </tr>
+    </ng-template>
+</p-table>
