@@ -25,18 +25,23 @@ export class ResidentesComponent implements OnInit {
     this.commonService.aClickedEvent
       .subscribe((info: string) => {
         if (info.length > 0)
-          this.getInfo(info);
+          localStorage.setItem('_search', info);
       });
+    if (!localStorage.getItem('_search')) {
+      this.router.navigate(['/planetas']);
+    } else {
+      this.getInfo();
+    }
   }
 
-  private getInfo(info: string): void {
+  private getInfo(): void {
     let _per = [];
-    let _info = info.split(',');
+    let _info = localStorage.getItem('_search').split(',');
     _info.forEach(el => {
       this.personajesService.getSpecificInfo(el).subscribe(
         succ => {
           _per.push(succ);
-          this.dataSource = new MatTableDataSource(_per);
+          this.dataSource = new MatTableDataSource(_per.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)));
           this.dataSource.sort = this.sort;
         },
         err => {
@@ -44,6 +49,8 @@ export class ResidentesComponent implements OnInit {
         }
       );
     });
+
+    localStorage.removeItem('_search');
   }
 
   applyFilter(event: Event) {
