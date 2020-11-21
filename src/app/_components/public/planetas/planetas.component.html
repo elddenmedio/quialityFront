@@ -1,14 +1,13 @@
-<!-- currentPageReportTemplate="Items per page: {{totalItemsPerPage}} | {first} - {last} of {totalRecords} entries" -->
-<p-table #dt [value]="dataSource" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers" [paginator]="true" [lazy]="true" (onLazyLoad)="nextPage($event)" [totalRecords]="totalRecords"
-    [currentPageReportTemplate]="'{currentPage} of {totalPages}'" [globalFilterFields]="['name','terrain','population','created','edited']">
+<p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-customers" [paginator]="true" [lazy]="true" (onLazyLoad)="nextPage($event)" [totalRecords]="totalRecords" [currentPageReportTemplate]="'{currentPage} of {totalPages}'">
     <ng-template pTemplate="caption">
         <div class="p-d-flex">
             <span class="p-input-icon-left p-ml-auto">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filter" />
+                <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Filter" />
             </span>
         </div>
     </ng-template>
+
     <ng-template pTemplate="header">
         <tr>
             <th>Name</th>

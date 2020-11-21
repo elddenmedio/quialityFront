@@ -1,34 +1,23 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { LazyLoadEvent } from 'primeng/api';
 import { PersonajeInterface } from 'src/app/_interfaces';
 import { PersonajesService } from 'src/app/_services';
 
 @Component({
   selector: 'app-personajes',
   templateUrl: './personajes.component.html',
-  styleUrls: ['./personajes.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])
-  ]
+  styleUrls: ['./personajes.component.scss']
 })
 export class PersonajesComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'height', 'mass', 'birth_year', 'gender', 'created', 'edited']
-  dataSource: MatTableDataSource<PersonajeInterface>;
-  lengthPagination: number = 0;
+  dataSource: PersonajeInterface[];
+  statuses: any[];
+  activityValues: number[] = [0, 100];
+  totalItemsPerPage: number = 10;
   page: number = 1;
-  count: number = 10;
+  totalRecords: number;
   loading: boolean = false;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private router: Router,
@@ -37,46 +26,31 @@ export class PersonajesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.getInfo(true)
+    this.loadInfo(true);
   }
 
-  private getInfo(refresh: boolean): void {
-    if (refresh) {
-      this.page = 1;
-      this.count = 10;
-    }
+  private loadInfo(refresh: boolean, filter: any = null): void {
+    if (refresh) this.page = 1;
 
-    this.personajesService.getInfo(this.page).subscribe(
+    this.personajesService.getInfo(this.page, filter).subscribe(
       succ => {
         this.loading = false;
-        this.lengthPagination = 0;
-        this.dataSource = new MatTableDataSource(succ.results);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.lengthPagination = succ.count;
-        
+        this.dataSource = succ.results.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));;
+        this.totalRecords = succ.count;
       },
       err => {
-        debugger
+        this.loadInfo(true);
       }
     )
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  nextPage(event: LazyLoadEvent) {
+    let _filter = null;
+    this.page = (event.first / 10) + 1;
+    if (event.filters.global) {
+      _filter = event.filters.global.value;
     }
-  }
-
-  changePage(event: MatPaginator) {
-    this.page = (event.pageIndex + 1);
-    this.count = event.pageSize;
-    event.pageSize
-    debugger
-    this.getInfo(false);
+    this.loadInfo(false, _filter);
   }
 
   displayInfo(info: string): void {

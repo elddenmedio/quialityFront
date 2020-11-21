@@ -13,15 +13,19 @@ export class PersonajesService {
     private http: HttpClient
   ) { }
 
-  getInfo(page): Observable<GeneralInterface> {
-    return this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'people', { params: { page: page } });
+  getInfo(page, filter: string = null): Observable<GeneralInterface> {
+    return (filter)
+      ? this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'people', { params: { search: filter } })
+      : this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'people', { params: { page: page.toString() } });
   }
 
-  getSpecificInfo(person): Observable<PersonajeInterface> {
+  getSpecificInfo(person: string): Observable<PersonajeInterface> {
     return this.http.get<PersonajeInterface>(environment.swapi_endpoint_api + 'people/' + person)
   }
 
-  getResidentes(page): Observable<GeneralInterface> {
-    return this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'planets', { params: { page: page } });
+  getResidentes(page: number, filter: string = null): Observable<GeneralInterface> {
+    return (filter)
+      ? this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'planets', { params: { search: filter } })
+      : this.http.get<GeneralInterface>(environment.swapi_endpoint_api + 'planets', { params: { page: page.toString() } });
   }
 }

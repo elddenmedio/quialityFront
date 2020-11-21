@@ -15,7 +15,6 @@ export class PlanetasComponent implements OnInit {
   activityValues: number[] = [0, 100];
   totalItemsPerPage: number = 10;
   page: number = 1;
-  count: number = 10;
   totalRecords: number;
 
   constructor(
@@ -28,23 +27,27 @@ export class PlanetasComponent implements OnInit {
     this.loadInfo(true);
   }
 
-  private loadInfo(refresh: boolean): void {
+  private loadInfo(refresh: boolean, filter: any = null): void {
     if (refresh) this.page = 1;
 
-    this.personajesServices.getResidentes(this.page).subscribe(
+    this.personajesServices.getResidentes(this.page, filter).subscribe(
       succ => {
-        this.dataSource = succ.results;
+        this.dataSource = succ.results.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));;
         this.totalRecords = succ.count;
       },
       err => {
-        debugger
+        this.loadInfo(true);
       }
     );
   }
 
   nextPage(event: LazyLoadEvent) {
+    let _filter = null;
     this.page = (event.first / 10) + 1;
-    this.loadInfo(false);
+    if (event.filters.global) {
+      _filter = event.filters.global.value;
+    }
+    this.loadInfo(false, _filter);
   }
 
   displayInfo(info: string[]): void {
@@ -54,9 +57,7 @@ export class PlanetasComponent implements OnInit {
       _residents.push(_id[_id.length - 1]);
     });
 
-    // setTimeout(() => {
     this.commonService.AClicked(_residents.toString());
-    // }, 300);
 
     this.router.navigate(['/residentes']);
   }

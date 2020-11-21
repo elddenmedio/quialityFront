@@ -1,62 +1,43 @@
 <div class="row justify-content-center" *ngIf="dataSource">
     <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-8">
-        <div class="row">
-            <div class="col-5">
-                <mat-form-field>
-                    <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. 19BBY" #input>
-                </mat-form-field>
-            </div>
-        </div>
+        <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-customers" [paginator]="true" [lazy]="true" (onLazyLoad)="nextPage($event)" [totalRecords]="totalRecords" [currentPageReportTemplate]="'{currentPage} of {totalPages}'">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+                    <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Filter" />
+                    </span>
+                </div>
+            </ng-template>
 
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                    <td mat-cell *matCellDef="let row"><a (click)="displayInfo(row.url)"> {{row.name}} </a></td>
-                </ng-container>
-
-                <ng-container matColumnDef="height">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Height </th>
-                    <td mat-cell *matCellDef="let row"> {{row.height}}% </td>
-                </ng-container>
-
-                <ng-container matColumnDef="mass">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mass </th>
-                    <td mat-cell *matCellDef="let row"> {{row.mass}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="birth_year">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Year </th>
-                    <td mat-cell *matCellDef="let row"> {{row.birth_year}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="gender">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
-                    <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="created">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
-                    <td mat-cell *matCellDef="let row"> {{row.created | moment:1}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="edited">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Edited </th>
-                    <td mat-cell *matCellDef="let row"> {{row.edited | moment:1}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                <!-- Row shown when there is no matching data. -->
-                <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Height</th>
+                    <th>Mass</th>
+                    <th>Birth Year</th>
+                    <th>Gender</th>
+                    <th>Created</th>
+                    <th>Edited</th>
                 </tr>
-            </table>
-
-            <mat-paginator [length]="lengthPagination" showFirstLastButtons (page)="changePage($event)" [pageSize]="10" [pageSizeOptions]="[10]"></mat-paginator>
-        </div>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td><a (click)="displayInfo(data.url)">{{data.name}}</a></td>
+                    <td><span>{{data.height}} %</span></td>
+                    <td><span>{{data.mass}}</span></td>
+                    <td><span>{{data.birth_year}}</span></td>
+                    <td><span>{{data.gender}}</span></td>
+                    <td><span>{{data.created | moment:1}}</span></td>
+                    <td><span>{{data.edited | moment:1}}</span></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">No info found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 </div>
 
